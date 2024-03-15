@@ -38,7 +38,7 @@ const DataTable = ({ data, setData }) => {
     }
 
     const handleFilter = ()=>{
-        
+
     }
 
     console.log({ filteredUniversity });
@@ -75,8 +75,8 @@ const DataTable = ({ data, setData }) => {
                             <th scope="col" className="px-6 py-3">
                                 <select onChange={handleFilter} name="cars" id="cars">
                                     {
-                                        selectedState?.map((item, i) => (
-                                            <option key={i} value={item?.["state-province"]}>{item?.["state-province"]}</option>
+                                        filteredUniversity?.map((item, i) => (
+                                            <option key={i} value={item?.name}>{item?.name}</option>
                                         ))
                                     }
                                 </select>
