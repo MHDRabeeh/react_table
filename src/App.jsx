@@ -12,9 +12,10 @@ function App() {
   useEffect(() => {
     try {
       async function fetch() {
-        const data = await axios.get('http://universities.hipolabs.com/search?country=India')
-        setData(data.data)
-        console.log(data.data);
+        const data = await axios.get('http://universities.hipolabs.com/search?country=')
+        const slicedData=  data.data.slice(0,5000)
+        setData(slicedData)
+        // console.log(data.data);
       }
       fetch()
 

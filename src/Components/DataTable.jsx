@@ -3,9 +3,11 @@ import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 const DataTable = ({ data, setData }) => {
 
-    const [selecedCountry, setSelectedCountry] = useState('')
+
     const [selectedState, setSelectedState] = useState([])
     const [filteredUniversity, setfilteredUniversity] = useState([])
+    const [filteredData,setFilteredData] = useState([])
+    const [search,setSearch] = useState(false)
     // const [sele]
 
     const handlDelete = (index) => {
@@ -37,11 +39,16 @@ const DataTable = ({ data, setData }) => {
 
     }
 
-    const handleFilter = ()=>{
-
+    const seletedUniversity = (e) => {
+        const selectedUniversity = e.target.value
+       
+        const filteredData = data.filter((item) => {
+            return item?.name === selectedUniversity
+        })
+        setFilteredData(filteredData)
     }
 
-    console.log({ filteredUniversity });
+    console.log({ filteredData });
 
     return (
         <div>
@@ -73,7 +80,7 @@ const DataTable = ({ data, setData }) => {
                                 </select>
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                <select onChange={handleFilter} name="cars" id="cars">
+                                <select onChange={seletedUniversity} name="cars" id="cars">
                                     {
                                         filteredUniversity?.map((item, i) => (
                                             <option key={i} value={item?.name}>{item?.name}</option>
@@ -83,14 +90,12 @@ const DataTable = ({ data, setData }) => {
                             </th>
 
                             <th scope="col" className="px-6 py-3">
-                                University Name
+                                <button className='p-2 border rounded-lg' onClick={()=>setSearch(true)} >Search</button>
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Domain
+                                <button className='p-2 border rounded-lg' onClick={()=>setSearch(false)}>Clear Search</button>
                             </th>
-                            <th scope="col" className="px-6 py-3">
-                                Action
-                            </th>
+
 
 
                         </tr>
@@ -121,7 +126,42 @@ const DataTable = ({ data, setData }) => {
 
                         </tr>
                     </thead>
-                    <tbody>
+                    {
+                        search? <tbody>
+                        {
+                            filteredData?.map((item, i) => (
+                                <tr key={i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {i + 1}
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        {item?.country}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {item?.['state-province']}
+
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {item?.name}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {item.domains.map((item, i) => (
+
+                                            <a key={i} href=''>{item}</a>
+
+                                        ))}
+                                    </td>
+
+                                    <td className="px-6 py-4  flex gap-3 ">
+                                        <span className='text-red-400 text-2xl cursor-pointer' onClick={() => handlDelete(i)}><MdDelete /></span>
+                                        <span className='text-blue-500 text-2xl cursor-pointer'><MdEdit /></span>
+                                    </td>
+
+                                </tr>
+                            ))
+
+                        }
+                    </tbody>: <tbody>
                         {
                             data?.map((item, i) => (
                                 <tr key={i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -155,11 +195,11 @@ const DataTable = ({ data, setData }) => {
                             ))
 
                         }
-
-
-
-
                     </tbody>
+                       
+
+                    }
+                    
                 </table>
             </div>
 
